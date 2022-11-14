@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import {Photo} from './components/Photo.js';
 import './App.css';
 
 function App() {
+
+  const [photosModules, setPhotosModules] = useState([]);
+
+  let photos = [];
+
+  useEffect(() => {
+    fetch('http://jsonplaceholder.typicode.com/photos?albumId=1')
+    .then(response => response.json())
+    .then(json => setPhotosModules(json))
+}, []);
+
+
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      Default
+      {photosModules.map(item => {
+        return (<div>
+          <Photo 
+            image={item}
+          />
+        </div>)
+      })}
     </div>
   );
 }
