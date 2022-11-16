@@ -3,31 +3,55 @@ import {Photo} from './components/Photo.js';
 import './App.css';
 
 function App() {
+  const [photoList, setPhotoList] = useState([]);
 
-  const [photosModules, setPhotosModules] = useState([]);
-
-  let photos = [];
 
   useEffect(() => {
-    fetch('http://jsonplaceholder.typicode.com/photos?albumId=1')
+    fetch('http://jsonplaceholder.typicode.com/photos')
     .then(response => response.json())
-    .then(json => setPhotosModules(json))
-}, []);
+    .then(json => setPhotoList(json))
+  }, []);
 
+  function randomizeArray(array) {
+    let newArray = [];
 
+    // base case
+    if (!array.length) {
+      return newArray;
+    }
+
+    // get random index, push to newArray and remove from array
+    let a = Math.floor(Math.random() * array.length);
+    newArray.push(array[a]);
+    array.splice(a, 1);
+
+    // recursive step
+    return newArray.concat(randomizeArray(array));
+  }
+ 
 
   
   return (
     <div>
-      Default
-      {photosModules.map(item => {
-        return (<div>
-          <Photo 
-            image={item}
-          />
-        </div>)
-      })}
+      <div className='photolist'>
+        { 
+        photoList.map(item => { return (
+          <div>
+            <Photo {...item} key={item.id} />
+          </div>)}) 
+        }
+      </div>
+      <div style={{display: 'flex', justifyContent: "center"}}>
+        <button className="random-btn" onClick={() => {
+            let copy = photoList;
+            copy = randomizeArray(copy);
+            setPhotoList(copy);
+          }}>
+          Randomize Array
+        </button>
+      </div>
     </div>
+    
   );
 }
 
