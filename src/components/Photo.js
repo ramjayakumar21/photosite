@@ -8,9 +8,10 @@ export function Photo(props) {
 
     useEffect(() => {
         // Remote URLS don't have CORS enabled, as such images can't be cached
+        // Stores image in cache as Base64 URL, recalls it later if already saved
+
         imagesCache.load(imageURL)
-            .then(() => {
-                setImageURL(imagesCache.get(imageURL))
+            .then(() => {// do nothing
             })
             .catch((err) => {console.log(err)})
     });
@@ -18,7 +19,7 @@ export function Photo(props) {
 
     return (
         <div>
-            <img className="photo" src={props.url}></img>
+            <img className="photo" src={imagesCache.get(imageURL)}></img>
             <div className="photo--title">
                 <div className="photo--title-text">
                     {props.title}
