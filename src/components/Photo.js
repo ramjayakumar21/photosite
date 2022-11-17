@@ -1,26 +1,20 @@
 import "./Photo.css";
 import React, { useEffect, useState } from 'react';
+import imagesCache from 'images-cache';
 
 export function Photo(props) {   
     
     const [imageURL, setImageURL] = useState(props.url);
 
     useEffect(() => {
-        // NOT WORKING
-        // fetch(imageURL)
-        //     .then(r => {
-        //         const reader = new FileReader();
-        //         reader.onload = () => {
-        //             localStorage.setItem(props.url, reader.result)
-        //         };
-        //         reader.readAsDataURL(r.blob());
-        //     })
-        //     .catch(err => console.log("Failed to get"))
-            
-        
+        // Remote URLS don't have CORS enabled, as such images can't be cached
+        imagesCache.load(imageURL)
+            .then(() => {
+                setImageURL(imagesCache.get(imageURL))
+            })
+            .catch((err) => {console.log(err)})
     });
     
-
 
     return (
         <div>

@@ -10,7 +10,9 @@
   padding: 20px;
   background-color: rgb(0, 173, 253);
   border-radius: 10px;
-  border: 0px;
+  border: 1px solid black;
+  color: white;
+  box-shadow:  0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
 }
 
 .random-btn:hover {
